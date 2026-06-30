@@ -5,6 +5,9 @@ import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { MapPin, Clock, Code2, Database, LayoutTemplate, Music, Terminal, Cpu, Blocks, MonitorSmartphone, Mail, Download, Sparkles } from "lucide-react";
+import { Outfit } from "next/font/google";
+
+const outfit = Outfit({ subsets: ["latin"], weight: ["100"] });
 
 const t = {
   EN: {
@@ -115,7 +118,7 @@ export default function Home() {
     const timer = setTimeout(() => {
       setIsLoading(false);
       setIsReady(true);
-    }, 1000);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -141,19 +144,57 @@ export default function Home() {
           <motion.div
             key="preloader"
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-[999] bg-[#050505] flex flex-col items-center justify-center text-white"
           >
-            <div className="w-40 h-[2px] bg-white/10 mb-6 overflow-hidden rounded-full relative">
-              <motion.div 
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="h-full bg-white absolute top-0 left-0"
-              />
+            <div className="relative flex flex-col items-center justify-center">
+              <svg width="120" height="120" viewBox="0 0 100 100" className="mb-6">
+                {/* Left fluid ribbon */}
+                <motion.path 
+                  d="M 35 20 C 55 45, 15 55, 35 80" 
+                  fill="none" 
+                  stroke="#ffffff" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+                />
+                {/* Right sweeping ribbon */}
+                <motion.path 
+                  d="M 75 20 C 10 35, 10 65, 75 80" 
+                  fill="none" 
+                  stroke="#ffffff" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
+                />
+              </svg>
+
+              <div className="overflow-hidden mt-3">
+                <motion.div 
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.5 }}
+                  className={`${outfit.className} text-sm md:text-base text-white/70 uppercase tracking-[0.4em] font-thin`}
+                >
+                  Kevin Nurachman
+                </motion.div>
+              </div>
+
+              {/* Minimalist Scanner Bar */}
+              <div className="absolute -bottom-8 w-32 h-[1px] bg-white/10 overflow-hidden">
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity }}
+                  className="w-full h-full bg-white/80"
+                />
+              </div>
             </div>
-            <div className="text-xs uppercase tracking-[0.3em] font-bold text-white/40">Kevin Nurachman</div>
           </motion.div>
         )}
       </AnimatePresence>
